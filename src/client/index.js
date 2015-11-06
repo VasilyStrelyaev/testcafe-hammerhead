@@ -16,8 +16,19 @@ import { getProxyUrl } from './utils/url';
 /*eslint-enable no-native-reassign*/
 
 class Hammerhead {
+    /**
+    * @class Hammerhead
+    * @classdesc Manages operations required to ensure that the proxied page works as if it was opened from the original location.
+    * Creates a new instance of {@link Hammerhead}.
+    */
     constructor () {
         this.win     = null;
+        /**
+        * Contains sandboxes - objects responsible for proxying different means by which the page communicates with the outer world.
+        * @type Sandbox
+        * @memberof Hammerhead
+        * @instance
+        */
         this.sandbox = new Sandbox();
 
         this.EVENTS = {

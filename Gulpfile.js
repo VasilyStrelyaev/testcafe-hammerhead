@@ -13,6 +13,7 @@ var Promise      = require('pinkie');
 var uglify       = require('gulp-uglify');
 var gulpif       = require('gulp-if');
 var util         = require('gulp-util');
+var jsdoc2md     = require('gulp-jsdoc-to-markdown');
 
 var CLIENT_TESTS_SETTINGS = {
     basePath:        './test/client/fixtures',
@@ -198,3 +199,13 @@ gulp.task('playground', ['build'], function () {
 });
 
 gulp.task('travis', [process.env.GULP_TASK || '']);
+
+gulp.task('doc', ['server-scripts', 'client-scripts-bundle'], function () {
+    return gulp
+        .src('lib/**/*.js')
+        .pipe(jsdoc2md({ plugin: 'dmd-plugin-async' }))
+        .pipe(rename(function (path) {
+            path.extname = ".md";
+        }))
+        .pipe(gulp.dest('api'));
+})

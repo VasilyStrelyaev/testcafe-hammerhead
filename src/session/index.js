@@ -11,7 +11,14 @@ import { parseProxyUrl } from '../utils/url';
 const TASK_TEMPLATE = read('../client/task.js.mustache');
 
 // Session
+
 export default class Session extends EventEmitter {
+    /**
+    * Creates a new instance of {@link Session}.
+    * @class Session
+    * @classdesc A session on a proxy server.
+    * @param {string} uploadsRoot - the path where resource uploaded to the proxy server will be stored.
+    */
     constructor (uploadsRoot) {
         super();
 
@@ -63,22 +70,58 @@ export default class Session extends EventEmitter {
         return taskScript;
     }
 
+    /**
+    * @function _getIframePayloadScript
+    * @desc Override this function so that it returns the script that should be inserted in all Iframes on a proxied page.
+    * @returns {string} The script to be inserted in all Iframes on a proxied page.
+    * @memberof Session
+    * @instance
+    */
     _getIframePayloadScript () {
         throw new Error('Not implemented');
     }
 
+    /**
+    * @function _getIframePayloadScript
+    * @desc Override this function so that it returns the script that should be inserted in the proxied page.
+    * @returns {string} The script to be inserted in the proxied page.
+    * @memberof Session
+    * @instance
+    */
     _getPayloadScript () {
         throw new Error('Not implemented');
     }
 
+    /**
+    * @function handleFileDownload
+    * @desc Override this function so that it handles file download.
+    * @param {RequestPipelineContext} ctx - request pipeline context
+    * @memberof Session
+    * @instance
+    */
     handleFileDownload (/* ctx */) {
         throw new Error('Not implemented');
     }
 
+    /**
+    * @function handlePageError
+    * @desc Override this function so that it handles JS errors that happen on a page.
+    * @param {RequestPipelineContext} ctx - request pipeline context
+    * @param {string} err - error message
+    * @memberof Session
+    * @instance
+    */
     handlePageError (/* ctx, err */) {
         throw new Error('Not implemented');
     }
 
+    /**
+    * @function getAuthCredentials
+    * @desc Override this function so that it returns user credentials.
+    * @returns {{username: string, password: string}} User credentials
+    * @memberof Session
+    * @instance
+    */
     getAuthCredentials () {
         throw new Error('Not implemented');
     }

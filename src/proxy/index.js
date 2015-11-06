@@ -33,6 +33,14 @@ function createServerInfo (hostname, port, crossDomainPort) {
 
 // Proxy
 export default class Proxy extends Router {
+    /**
+    * Creates a new instance of {@link Proxy}.
+    * @class Proxy
+    * @classdesc A server that proxies a web resource. 
+    * @param {string} hostName - the name of the host where the {@link Proxy} server resides.
+    * @param {string} port1 - the port used to access the {@link Proxy}.
+    * @param {string} port2 - the port used internally to emulate cross-domain requests.
+    */
     constructor (hostname, port1, port2) {
         super();
 
@@ -125,12 +133,30 @@ export default class Proxy extends Router {
     }
 
     // API
+
+    /**
+    * Stops the proxy.
+    * @function close
+    * @memberof Proxy
+    * @instance
+    */
     close () {
         this.server1.close();
         this.server2.close();
         this._closeSockets();
     }
 
+    /**
+    * Opens the {@link Session} and proxies the specified URL within this {@link Session}.
+    * @function openSession
+    * @param {string} url - the URL that should be proxied.
+    * @param {Session} session - the {@link Session} to open.
+    * @returns {string} The proxy URL.
+    * @memberof Proxy
+    * @instance
+    * @see {@link Proxy#closeSession|closeSession} 
+    * @see {@link Proxy#close|close}
+    */
     openSession (url, session) {
         session.proxy                 = this;
         this.openSessions[session.id] = session;
@@ -140,6 +166,15 @@ export default class Proxy extends Router {
         return urlUtils.getProxyUrl(url, this.server1Info.hostname, this.server1Info.port, session.id);
     }
 
+    /**
+    * Closes the {@link Session}.
+    * @function closeSession
+    * @param {Session} session - the {@link Session} to close.
+    * @memberof Proxy
+    * @instance
+    * @see {@link Proxy#openSession|openSession}
+    * @see {@link Proxy#close|close}
+    */
     closeSession (session) {
         session.proxy = null;
         delete this.openSessions[session.id];

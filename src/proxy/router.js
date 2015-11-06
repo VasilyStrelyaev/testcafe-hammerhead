@@ -15,6 +15,12 @@ function buildRouteParamsMap (routeMatch, paramNames) {
 
 // Router
 export default class Router {
+    /**
+    * Creates a new instance of {@link Router}.
+    * @class Router
+    * @classdesc Controls the redirection of HTTP requests.
+    * @see Proxy
+    */
     constructor () {
         this.routes           = {};
         this.routesWithParams = [];
@@ -100,10 +106,56 @@ export default class Router {
     }
 
     // API
+    
+    /**
+    * @external IncomingMessage
+    * @see https://nodejs.org/api/http.html#http_http_incomingmessage
+    */
+
+    /**
+    * @external ServerResponse
+    * @see https://nodejs.org/api/http.html#http_class_http_serverresponse
+    */
+
+    /**
+    * Contains information about the router.
+    * @typedef {Object} ServerInfo
+    * @property {string} hostName - The name of the host where the router is located.
+    * @property {string} port - The number of the port through same-domain requests are performed.
+    * @property {string} crossDomainPort - The number of the port through which cross-domain requests are performed.
+    * @property {string} domain - The domain address of the router.
+    */
+
+    /**
+    * The handler to which requests are redirected.
+    * @callback Router~Handler
+    * @param {external:IncomingMessage} req - The request received by the router.
+    * @param {external:ServerResponse} res - The response to be sent back by the router.
+    * @param {ServerInfo} serverInfo - Information about the router, such as the hostname and ports. 
+    */
+
+    /**
+    * Specifies that GET requests to the specified route should be redirected to the specified handler.
+    * @function GET
+    * @param {string} route - The route from which the requests will be redirected.
+    * @param {Router~Handler} handler - The handler to which the requests will be redirected.
+    * @memberof Router
+    * @instance
+    * @see {@link Router#POST|POST}
+    */
     GET (route, handler) {
         this._registerRoute(route, 'GET', handler);
     }
 
+    /**
+    * Specifies that POST requests to the specified route should be redirected to the specified handler.
+    * @function POST
+    * @param {string} route - The route from which the requests will be redirected.
+    * @param {Router~Handler} handler - The handler to which the requests will be redirected.
+    * @memberof Router
+    * @instance
+    * @see {@link Router#GET|GET}
+    */
     POST (route, handler) {
         this._registerRoute(route, 'POST', handler);
     }
